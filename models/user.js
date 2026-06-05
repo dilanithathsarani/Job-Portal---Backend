@@ -24,11 +24,27 @@ const userSchema = new mongoose.Schema(
       default: "jobseeker",
     },
 
+    bio:{
+        type:String
+    },
+
+    education:{
+        type:String
+    },
+
+    experience:{
+        type:String
+    },
+
     skills: [
       {
         type: String,
       },
     ],
+
+    profilePicture:{
+        type:String
+    },
 
     resume: {
       type: String,
