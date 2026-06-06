@@ -13,15 +13,18 @@ const PORT = 5000;
 app.use(express.json());
 
 const userRoutes = require("./routes/userRoutes");
-app.use("/api/users", userRoutes);  
+app.use("/api/users", userRoutes);
 
 const authRoutes = require("./routes/authRoutes");
 app.use("/api/auth", authRoutes);
 
+const companyRoutes = require("./routes/companyRoutes");
+app.use("/api/company", companyRoutes);
+
 app.get("/", (req, res) => {
-    res.send("API is running...");
+  res.send("API is running...");
 });
 
 app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });
