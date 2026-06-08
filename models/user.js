@@ -24,16 +24,16 @@ const userSchema = new mongoose.Schema(
       default: "jobseeker",
     },
 
-    bio:{
-        type:String
+    bio: {
+      type: String,
     },
 
-    education:{
-        type:String
+    education: {
+      type: String,
     },
 
-    experience:{
-        type:String
+    experience: {
+      type: String,
     },
 
     skills: [
@@ -42,17 +42,24 @@ const userSchema = new mongoose.Schema(
       },
     ],
 
-    profilePicture:{
-        type:String
+    profilePicture: {
+      type: String,
     },
 
     resume: {
       type: String,
     },
+
+    savedJobs: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Job",
+      },
+    ],
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 module.exports = mongoose.model("User", userSchema);
