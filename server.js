@@ -24,6 +24,9 @@ app.use("/api/company", companyRoutes);
 const jobRoutes = require("./routes/jobRoutes");
 app.use("/api/jobs", jobRoutes);
 
+const applicationRoutes = require("./routes/applicationRoutes");
+app.use("/api/application", applicationRoutes);
+
 app.get("/", (req, res) => {
   res.send("API is running...");
 });
