@@ -4,27 +4,14 @@ const router = express.Router();
 
 const protect = require("../middleware/authMiddleware");
 
-const {
-  createJob,
-  getAllJobs,
-  getJobById,
-  updateJob,
-  deleteJob,
-  searchJobs
-} = require("../controllers/jobController");
+const { createJob, getAllJobs } = require("../controllers/jobController");
 
 router.post("/create", protect, createJob);
 
+// Main list route
 router.get("/", getAllJobs);
-
-router.get("/search", searchJobs);
-
-router.get("/:id", getJobById);
-
-router.put("/:id", protect, updateJob);
-
-router.delete("/:id", protect, deleteJob);
-
-
+// Aliases to support clients using different endpoints
+router.get("/all", getAllJobs);
+router.get("/getAllJobs", getAllJobs);
 
 module.exports = router;
