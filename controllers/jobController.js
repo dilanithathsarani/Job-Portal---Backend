@@ -135,3 +135,33 @@ message:error.message
 }
 
 };
+
+exports.searchJobs =
+async(req,res)=>{
+
+try{
+
+const keyword =
+req.query.keyword;
+
+const jobs =
+await Job.find({
+
+title:{
+$regex:keyword,
+$options:"i"
+}
+
+});
+
+res.json(jobs);
+
+}catch(error){
+
+res.status(500).json({
+message:error.message
+});
+
+}
+
+};
