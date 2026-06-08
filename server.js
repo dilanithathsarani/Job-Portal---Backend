@@ -21,6 +21,9 @@ app.use("/api/auth", authRoutes);
 const companyRoutes = require("./routes/companyRoutes");
 app.use("/api/company", companyRoutes);
 
+const jobRoutes = require("./routes/jobRoutes");
+app.use("/api/jobs", jobRoutes);
+
 app.get("/", (req, res) => {
   res.send("API is running...");
 });
