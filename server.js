@@ -2,10 +2,23 @@ const express = require("express");
 const mongoose = require("mongoose");
 require("dotenv").config();
 
-mongoose
-  .connect(process.env.MONGO_URI)
-  .then(() => console.log("MongoDB Connected"))
-  .catch((err) => console.log(err));
+const connectWithRetry = async () => {
+  try {
+    await mongoose.connect(process.env.MONGO_URI);
+    console.log("MongoDB Connected");
+  } catch (err) {
+    console.error('MongoDB connection error:', err && err.message ? err.message : err);
+    if (err && (err.code === 'ENOTFOUND' || err.name === 'MongoNetworkError')) {
+      console.error(
+        'DNS lookup failed for MongoDB. If you are using MongoDB Atlas (mongodb+srv), ensure your network/DNS can resolve SRV records, or try using a standard connection string or a local MongoDB instance (mongodb://localhost:27017).'
+      );
+    }
+    // Exit with non-zero so a process manager (or the developer) notices the failure.
+    process.exit(1);
+  }
+};
+
+connectWithRetry();
 
 const app = express();
 const PORT = 5000;
