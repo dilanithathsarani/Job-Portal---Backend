@@ -1,5 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const cors = require("cors");
 require("dotenv").config();
 
 const connectWithRetry = async () => {
@@ -23,6 +24,7 @@ connectWithRetry();
 const app = express();
 const PORT = 5000;
 
+app.use(cors());
 app.use(express.json());
 
 const userRoutes = require("./routes/userRoutes");
