@@ -77,6 +77,12 @@ await Job.findById(
 req.params.id
 ).populate("company");
 
+if (!job) {
+return res.status(404).json({
+message: "Job not found"
+});
+}
+
 res.json(job);
 
 }catch(error){
