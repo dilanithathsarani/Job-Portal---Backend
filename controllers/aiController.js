@@ -1,4 +1,4 @@
-const pdf = require("pdf-parse");
+const { PDFParse } = require("pdf-parse");
 const ai = require("../ai/gemini");
 
 const interviewQuestions = async (req, res) => {
@@ -41,7 +41,15 @@ const analyzeResume = async (req, res) => {
             });
         }
 
-        const data = await pdf(req.file.buffer);
+        const parser = new PDFParse({ data: req.file.buffer });
+        let data;
+
+        try {
+            data = await parser.getText();
+        } finally {
+            await parser.destroy();
+        }
+
         const resumeText = data.text;
 
         const prompt = `You are an ATS Resume Analyzer.Analyze this resume.Return your response in this exact format:ATS Score: xx/100Strengths:- ...Weaknesses:- ...Missing Skills:- ...Suggestions:- ...Resume:${resumeText}`;
