@@ -42,6 +42,8 @@ app.use("/api/jobs", jobRoutes);
 const applicationRoutes = require("./routes/applicationRoutes");
 app.use("/api/application", applicationRoutes);
 
+app.use("/api/ai", require("./routes/aiRoutes"));
+
 app.get("/", (req, res) => {
   res.send("API is running...");
 });
@@ -49,3 +51,8 @@ app.get("/", (req, res) => {
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
+function newFunction() {
+  const aiRoutes = require("./routes/aiRoutes");
+  app.use("/api/ai", aiRoutes);
+}
+
