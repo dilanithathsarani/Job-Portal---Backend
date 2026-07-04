@@ -1,5 +1,7 @@
 const pdfParse = require("pdf-parse");
 const ai = require("../ai/gemini");
+const User = require("../models/user");
+const Job = require("../models/Job");
 
 const interviewQuestions = async (req, res) => {
     try {
@@ -122,9 +124,112 @@ const careerAdvisor = async (req, res) => {
     }
 };
 
+const recommendJobs = async (req, res) => {
+
+    try {
+
+        const userId = req.user.id;
+
+        const user = await User.findById(userId);
+
+        if (!user) {
+
+            return res.status(404).json({
+
+                success:false,
+
+                message:"User not found"
+
+            });
+
+        }
+
+        const jobs = await Job.find();
+
+        const prompt = `
+You are an AI Career Assistant.
+
+User Profile
+
+Name:
+${user.name}
+
+Skills:
+${user.skills.join(", ")}
+
+Education:
+${user.education}
+
+Experience:
+${user.experience}
+
+Preferred Location:
+${user.preferredLocation}
+
+Preferred Job Type:
+${user.preferredJobType}
+
+Available Jobs
+
+${JSON.stringify(jobs)}
+
+Recommend the BEST FIVE jobs.
+
+Return ONLY valid JSON.
+
+[
+{
+"title":"",
+"company":"",
+"matchScore":95,
+"reason":""
+}
+]
+`;
+
+        const response = await ai.models.generateContent({
+
+            model:"gemini-2.5-flash",
+
+            contents:prompt
+
+        });
+
+        let text = response.text;
+
+        text = text
+            .replace(/```json/g, "")
+            .replace(/```/g, "")
+            .trim();
+
+        res.json({
+
+            success:true,
+
+            recommendations:JSON.parse(text)
+
+        });
+
+    }
+
+    catch(error){
+
+        res.status(500).json({
+
+            success:false,
+
+            message:error.message
+
+        });
+
+    }
+
+};
+
 module.exports = {
     analyzeResume,
     generateCoverLetter,
     interviewQuestions,
     careerAdvisor,
+    recommendJobs
 };

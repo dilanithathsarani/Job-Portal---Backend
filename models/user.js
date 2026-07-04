@@ -36,6 +36,14 @@ const userSchema = new mongoose.Schema(
       type: String,
     },
 
+    preferredLocation: {
+      type: String,
+    },
+
+    preferredJobType: {
+      type: String,
+    },
+
     skills: [
       {
         type: String,
@@ -62,4 +70,4 @@ const userSchema = new mongoose.Schema(
   },
 );
 
-module.exports = mongoose.model("User", userSchema);
+module.exports = mongoose.models.User || mongoose.model("User", userSchema);

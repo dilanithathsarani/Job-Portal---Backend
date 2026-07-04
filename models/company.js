@@ -31,4 +31,4 @@ const companySchema = new mongoose.Schema({
     timestamps:true
 });
 
-module.exports = mongoose.model("Company", companySchema);
+module.exports = mongoose.models.Company || mongoose.model("Company", companySchema);
