@@ -57,6 +57,9 @@ app.use("/api/application", applicationRoutes);
 const aiRoutes = require("./routes/aiRoutes");
 app.use("/api/ai", aiRoutes);
 
+const recruiterRoutes = require("./routes/recruiterRoutes");
+app.use("/api/recruiter", recruiterRoutes);
+
 app.get("/", (req, res) => {
   res.send("API is running...");
 });
