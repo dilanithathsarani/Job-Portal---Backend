@@ -60,6 +60,9 @@ app.use("/api/ai", aiRoutes);
 const recruiterRoutes = require("./routes/recruiterRoutes");
 app.use("/api/recruiter", recruiterRoutes);
 
+const adminRoutes = require("./routes/adminRoutes");
+app.use("/api/admin", adminRoutes);
+
 app.get("/", (req, res) => {
   res.send("API is running...");
 });

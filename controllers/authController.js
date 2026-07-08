@@ -4,7 +4,7 @@ const generateToken = require("../utils/generateToken");
 
 exports.registerUser = async(req,res)=>{
     try{
-const {name,email,password} = req.body;
+const {name,email,password,role} = req.body;
 const normalizedEmail = email?.trim().toLowerCase();
 const normalizedPassword = password?.trim();
 
@@ -22,7 +22,8 @@ await bcrypt.hash(normalizedPassword,10);
 const user = await User.create({
     name,
     email: normalizedEmail,
-    password:hashedPassword
+    password:hashedPassword,
+    role: role || "jobseeker"
 });
 
 res.status(201).json({
@@ -69,7 +70,7 @@ message:"Invalid Credentials"
 }
 
 const token =
-generateToken(user._id);
+generateToken(user._id,user.role);
 
 res.json({
 success:true,
