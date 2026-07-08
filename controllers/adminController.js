@@ -16,6 +16,38 @@ exports.getDashboard = async(req,res)=>{
         const totalApplications =
         await Application.countDocuments();
 
+        const applicationStatus =
+        await Application.aggregate([
+
+            {
+                $group:{
+                    _id:"$status",
+                    count:{
+                        $sum:1
+                    }
+                }
+            }
+
+        ]);
+
+
+
+
+        const userRoles =
+        await User.aggregate([
+
+            {
+                $group:{
+                    _id:"$role",
+                    count:{
+                        $sum:1
+                    }
+                }
+            }
+
+        ]);
+
+
 
         res.json({
 
@@ -25,7 +57,9 @@ exports.getDashboard = async(req,res)=>{
                 totalUsers,
                 totalEmployers,
                 totalJobs,
-                totalApplications
+                totalApplications,
+                applicationStatus,
+                userRoles
             }
 
         });
