@@ -2,7 +2,8 @@ const express = require("express");
 const router = express.Router();
 const User = require("../models/User");
 const protect = require("../middleware/authMiddleware");
-const { getProfile } = require("../controllers/usetController");
+const authorizeRoles = require("../middleware/roleMiddleware");
+const { getProfile, updateUserRole } = require("../controllers/usetController");
 const { updateProfile } = require("../controllers/profileController");
 const multer = require("multer");
 
@@ -41,5 +42,7 @@ router.get("/profile", protect, getProfile);
 router.put("/profile", protect, updateProfile);
 
 router.post("/resume", protect, upload.single("resume"), uploadResume);
+
+router.put("/:id/role", protect, authorizeRoles("admin"), updateUserRole);
 
 module.exports = router;
