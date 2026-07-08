@@ -10,7 +10,9 @@ const {
     getUsers,
     deleteUser,
     getJobs,
-    deleteJob
+    deleteJob,
+    getApplications,
+    updateApplicationStatus
 } = require("../controllers/adminController");
 
 
@@ -54,6 +56,22 @@ router.delete(
     protect,
     authorizeRoles("admin"),
     deleteJob
+);
+
+router.get(
+    "/applications",
+    protect,
+    authorizeRoles("admin"),
+    getApplications
+);
+
+
+
+router.put(
+    "/applications/:id",
+    protect,
+    authorizeRoles("admin"),
+    updateApplicationStatus
 );
 
 

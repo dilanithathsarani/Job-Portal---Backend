@@ -169,3 +169,132 @@ exports.deleteJob = async(req,res)=>{
 
     }
 };
+
+exports.getApplications = async(req,res)=>{
+
+    try{
+
+
+        const applications =
+        await Application.find()
+
+        .populate(
+            "applicant",
+            "name email"
+        )
+
+        .populate(
+            {
+                path:"job",
+                select:"title location salary",
+                populate:{
+                    path:"company",
+                    select:"name"
+                }
+            }
+        )
+
+        .sort({
+            createdAt:-1
+        });
+
+
+
+        res.json({
+
+            success:true,
+
+            applications
+
+        });
+
+
+
+    }
+    catch(error){
+
+
+        res.status(500).json({
+
+            success:false,
+
+            message:error.message
+
+        });
+
+
+    }
+
+
+};
+
+exports.updateApplicationStatus = async(req,res)=>{
+
+
+    try{
+
+
+        const {
+            status
+        } = req.body;
+
+
+
+        const application =
+        await Application.findByIdAndUpdate(
+
+            req.params.id,
+
+            {
+                status
+            },
+
+            {
+                new:true
+            }
+
+        );
+
+
+
+        if(!application){
+
+            return res.status(404).json({
+
+                message:"Application not found"
+
+            });
+
+        }
+
+
+
+        res.json({
+
+            success:true,
+
+            message:"Application status updated",
+
+            application
+
+        });
+
+
+
+    }
+    catch(error){
+
+
+        res.status(500).json({
+
+            success:false,
+
+            message:error.message
+
+        });
+
+
+    }
+
+
+};
