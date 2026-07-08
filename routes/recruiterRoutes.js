@@ -5,10 +5,17 @@ const router = express.Router();
 const protect = require("../middleware/authMiddleware");
 
 const {
-    getDashboard
+    getDashboard,
+    getRecruiterProfile
 } = require("../controllers/recruiterController");
 
 // Recruiter Dashboard
 router.get("/dashboard", protect, getDashboard);
+
+router.get(
+    "/profile",
+    protect,
+    getRecruiterProfile
+);
 
 module.exports = router;

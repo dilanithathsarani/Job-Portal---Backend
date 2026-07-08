@@ -1,5 +1,6 @@
 const Job = require("../models/Job");
 const Application = require("../models/Application");
+const User = require("../models/User");
 
 const getDashboard = async (req, res) => {
 
@@ -51,6 +52,50 @@ const getDashboard = async (req, res) => {
 
 };
 
+const getRecruiterProfile = async (req, res) => {
+
+    try {
+
+        const recruiter = await User.findById(req.user.id)
+            .select("-password");
+
+        if (!recruiter) {
+
+            return res.status(404).json({
+
+                success: false,
+
+                message: "Recruiter not found"
+
+            });
+
+        }
+
+        res.status(200).json({
+
+            success: true,
+
+            recruiter
+
+        });
+
+    }
+
+    catch (error) {
+
+        res.status(500).json({
+
+            success: false,
+
+            message: error.message
+
+        });
+
+    }
+
+};
+
 module.exports = {
-    getDashboard
+    getDashboard,
+    getRecruiterProfile
 };
