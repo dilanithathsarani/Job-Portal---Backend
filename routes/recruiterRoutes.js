@@ -3,19 +3,19 @@ const express = require("express");
 const router = express.Router();
 
 const protect = require("../middleware/authMiddleware");
+const authorizeRoles = require("../middleware/roleMiddleware");
 
 const {
-    getDashboard,
-    getRecruiterProfile
+  getDashboard,
+  getRecruiterProfile,
 } = require("../controllers/recruiterController");
 
-// Recruiter Dashboard
-router.get("/dashboard", protect, getDashboard);
+router.use(protect);
+router.use(authorizeRoles("employer"));
 
-router.get(
-    "/profile",
-    protect,
-    getRecruiterProfile
-);
+// Recruiter Dashboard
+router.get("/dashboard", getDashboard);
+
+router.get("/profile", getRecruiterProfile);
 
 module.exports = router;
