@@ -8,14 +8,17 @@ const authorizeRoles = require("../middleware/roleMiddleware");
 const {
   getDashboard,
   getRecruiterProfile,
+  updateRecruiterProfile
 } = require("../controllers/recruiterController");
 
 router.use(protect);
-router.use(authorizeRoles("employer"));
+router.use(authorizeRoles("recruiter"));
 
 // Recruiter Dashboard
 router.get("/dashboard", getDashboard);
 
 router.get("/profile", getRecruiterProfile);
+
+router.put("/profile", getRecruiterProfile);
 
 module.exports = router;

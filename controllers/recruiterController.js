@@ -95,7 +95,49 @@ const getRecruiterProfile = async (req, res) => {
 
 };
 
+const updateRecruiterProfile = async (req, res) => {
+
+    try {
+
+    const recruiter = await User.findByIdAndUpdate(
+            req.user.id,
+            req.body,
+            {
+                new: true,
+                runValidators: true
+            }
+        );
+
+
+        if (!recruiter) {
+
+            return res.status(404).json({
+                message: "Recruiter not found"
+            });
+
+        }
+
+
+        res.status(200).json({
+
+            success: true,
+            recruiter
+
+        });
+
+    } catch(error) {
+
+        console.log("Update Profile Error:", error);
+
+        res.status(500).json({
+            success:false,
+            message:"Server Error"
+        });
+    }
+};
+
 module.exports = {
     getDashboard,
-    getRecruiterProfile
+    getRecruiterProfile,
+    updateRecruiterProfile
 };

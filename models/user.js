@@ -20,7 +20,7 @@ const userSchema = new mongoose.Schema(
 
     role: {
       type: String,
-      enum: ["jobseeker", "employer", "admin"],
+      enum: ["jobseeker", "recruiter", "admin"],
       default: "jobseeker",
     },
 
@@ -55,6 +55,10 @@ const userSchema = new mongoose.Schema(
     },
 
     resume: {
+      type: String,
+    },
+
+    phone: {
       type: String,
     },
 
