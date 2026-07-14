@@ -19,6 +19,6 @@ router.get("/dashboard", getDashboard);
 
 router.get("/profile", getRecruiterProfile);
 
-router.put("/profile", getRecruiterProfile);
+router.put("/profile", updateRecruiterProfile);
 
 module.exports = router;

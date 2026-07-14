@@ -112,3 +112,32 @@ exports.searchJobs = async (req, res) => {
     });
   }
 };
+
+exports.getMyJobs = async(req,res)=>{
+
+try{
+
+const jobs = await Job.find({
+
+createdBy:req.user.id
+
+})
+.populate("company");
+
+
+res.json({
+jobs
+});
+
+
+}
+
+catch(error){
+
+res.status(500).json({
+message:error.message
+});
+
+}
+
+};
