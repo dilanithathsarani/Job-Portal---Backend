@@ -5,7 +5,8 @@ const protect =
 require("../middleware/authMiddleware");
 
 const {
-createCompany
+createCompany,
+getMyCompanies
 } = require("../controllers/companyController");
 
 router.post(
@@ -13,5 +14,7 @@ router.post(
 protect,
 createCompany
 );
+
+router.get("/my-companies", protect, getMyCompanies);
 
 module.exports = router;

@@ -1,36 +1,45 @@
 const Company = require("../models/Company");
 
-exports.createCompany = async(req,res)=>{
+exports.createCompany = async (req, res) => {
+  try {
+    const { name, description, website, location } = req.body;
 
-try{
+    const company = await Company.create({
+      name,
+      description,
+      website,
+      location,
+      createdBy: req.user.id,
+    });
 
-const {
-name,
-description,
-website,
-location
-} = req.body;
+    res.status(201).json({
+      success: true,
+      company,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
 
-const company =
-await Company.create({
-    name,
-    description,
-    website,
-    location,
-    createdBy:req.user.id
-});
+exports.getMyCompanies = async (req, res) => {
+    try {
 
-res.status(201).json({
-    success:true,
-    company
-});
+        const companies = await Company.find({
+            createdBy: req.user.id
+        });
 
-}catch(error){
+        res.status(200).json({
+            success: true,
+            companies
+        });
 
-res.status(500).json({
-    message:error.message
-});
+    } catch (error) {
 
-}
+        res.status(500).json({
+            message: error.message
+        });
 
+    }
 };
